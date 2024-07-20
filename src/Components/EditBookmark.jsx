@@ -1,15 +1,22 @@
-// src/Components/EditBookmark.js
+// Import necessary dependencies from React and React Router DOM
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
+// Import mock data functions for bookmark operations
 import { getBookmarkById, updateBookmark } from '../MockData';
 
+// EditBookmark component
 const EditBookmark = () => {
+  // Extract `id` from URL params and initialize `navigate` for navigation
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // State variables for bookmark data and validation errors
   const [bookmark, setBookmark] = useState({ title: '', url: '', description: '' });
   const [titleError, setTitleError] = useState('');
   const [urlError, setUrlError] = useState('');
 
+  // Fetch bookmark data based on `id` when component mounts
   useEffect(() => {
     const fetchBookmark = async () => {
       const result = await getBookmarkById(id);
@@ -18,6 +25,7 @@ const EditBookmark = () => {
     fetchBookmark();
   }, [id]);
 
+  // Form validation function to ensure required fields are filled
   const validateForm = () => {
     let valid = true;
     setTitleError('');
@@ -33,23 +41,27 @@ const EditBookmark = () => {
     return valid;
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      updateBookmark(id, bookmark);
-      navigate('/');
+      updateBookmark(id, bookmark); // Update bookmark via mock API
+      navigate('/'); // Navigate back to homepage after update
     }
   };
 
+  // Handle input changes and update `bookmark` state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBookmark((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle cancellation of editing and navigate back to homepage
   const handleCancel = () => {
     navigate('/');
   };
 
+  // JSX rendering of the edit bookmark form
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -109,4 +121,5 @@ const EditBookmark = () => {
   );
 };
 
+// Export EditBookmark component as default
 export default EditBookmark;
