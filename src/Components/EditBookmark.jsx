@@ -1,70 +1,55 @@
-// Import necessary React hooks and functions
+// src/Components/EditBookmark.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Importing useParams and useNavigate hooks from react-router-dom
-import { getBookmarkById, updateBookmark } from '../MockData'; // Importing mock data functions
+import { useParams, useNavigate } from 'react-router-dom';
+import { getBookmarkById, updateBookmark } from '../MockData';
 
 const EditBookmark = () => {
-  // Extracting 'id' from URL params and 'navigate' function from hooks
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // State variables to manage bookmark data and input errors
   const [bookmark, setBookmark] = useState({ title: '', url: '', description: '' });
   const [titleError, setTitleError] = useState('');
   const [urlError, setUrlError] = useState('');
 
-  // Effect hook to fetch bookmark data based on 'id' when component mounts
   useEffect(() => {
     const fetchBookmark = async () => {
-      const result = await getBookmarkById(id); // Fetch bookmark data by id using mock function
-      setBookmark(result); // Set fetched data into state
+      const result = await getBookmarkById(id);
+      setBookmark(result);
     };
-    fetchBookmark(); // Call fetch function
-  }, [id]); // Dependency array ensures effect runs only when 'id' changes
+    fetchBookmark();
+  }, [id]);
 
-  // Function to validate form inputs
   const validateForm = () => {
-    let valid = true; // Assume form is valid by default
-    setTitleError(''); // Clear previous title error
-    setUrlError(''); // Clear previous URL error
-
-    // Check if title is empty
+    let valid = true;
+    setTitleError('');
+    setUrlError('');
     if (!bookmark.title) {
-      setTitleError('Bookmark title is required'); // Set error message if title is empty
-      valid = false; // Mark form as invalid
+      setTitleError('Bookmark title is required');
+      valid = false;
     }
-    
-    // Check if URL is empty
     if (!bookmark.url) {
-      setUrlError('Bookmark URL is required'); // Set error message if URL is empty
-      valid = false; // Mark form as invalid
+      setUrlError('Bookmark URL is required');
+      valid = false;
     }
-
-    return valid; // Return whether form is valid or not
+    return valid;
   };
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    if (validateForm()) { // Validate form inputs
-      updateBookmark(id, bookmark); // Call update function with bookmark id and data
-      navigate('/'); // Navigate back to homepage after update
+    e.preventDefault();
+    if (validateForm()) {
+      updateBookmark(id, bookmark);
+      navigate('/');
     }
   };
 
-  // Function to handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target; // Extract input name and value from event
-    setBookmark((prev) => ({ ...prev, [name]: value })); // Update bookmark state with new value
+    const { name, value } = e.target;
+    setBookmark((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Function to handle cancellation
   const handleCancel = () => {
-    navigate('/'); // Navigate back to homepage on cancel button click
+    navigate('/');
   };
 
-  // JSX structure of the component
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -124,4 +109,4 @@ const EditBookmark = () => {
   );
 };
 
-export default EditBookmark; // Export the component
+export default EditBookmark;

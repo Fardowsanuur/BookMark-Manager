@@ -1,19 +1,23 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import BookmarkTable from './Components/BookmarkTable';
+import SearchTable from './Components/SearchTable';
 import CreateBookmark from './Components/CreateBookmark';
 import EditBookmark from './Components/EditBookmark';
 
-function App() {
+
+const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<BookmarkTable />} />
-        <Route path="/create" element={<CreateBookmark />} />
-        <Route path="/edit/:id" element={<EditBookmark />} />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<SearchTable />} />
+          <Route path="/create-bookmark" element={<CreateBookmark />} />
+          <Route path="/edit/:id" element={<EditBookmark />} />
+        </Routes>
+      </div>
     </Router>
   );
-}
+};
 
 export default App;
